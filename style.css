@@ -1,0 +1,48 @@
+
+h1 {
+    color: blue; 
+    text-align: center;
+}
+
+h2 {
+    color: magenta; 
+    text-align: right;
+}
+
+/* id */
+#foo {
+    color: yellowgreen;
+}
+
+/* class */
+.baz{
+    color: orangered;
+}
+
+/* specifity 
+1. inline
+2. id
+3. class
+4. type
+*/
+
+/* selectors
+a, b multiple element
+a b descendant
+a > b child
+a + b adjacent sibling
+[a=b] attribute
+a:b pseudoclass
+a::b pseudoelement
+*/
+
+/* responsive design
+
+viewport (fix to diff screen)
+<meta name="viewport" content="width=device-width, initial scale=1.0">
+
+flexbox (wrapping)
+
+bootstrap
+
+*/
