@@ -6,6 +6,13 @@
 
 {% block body %}
     <h1>{{name}}</h1>
+    
+    <div class="entry-content">
+        {{ content }}
+    </div>
 
-    <p>{{content}}</p>
+    <br>
+
+    <a href="{% url 'edit_page' name %}"> Edit page </a>
+
 {% endblock %}

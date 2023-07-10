@@ -3,6 +3,8 @@ from django.urls import reverse
 
 from . import util
 import re
+import random
+import markdown2
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -16,10 +18,11 @@ def entry(request, name):
         # Entry does not exist, render error page
         return render(request, 'encyclopedia/error.html', {'message': 'Page not found'})
 
+    entry_html = markdown2.markdown(entry_content)
     # Entry exists, render the page with entry content
     return render(request, 'encyclopedia/entry.html', {
         'name': name, 
-        'content': entry_content
+        'content': entry_html
     })
 
 def search_results(request):
@@ -56,11 +59,6 @@ def create_page(request):
         title = request.POST.get('title')
         content = request.POST.get('content', '')
         
-        print("Test")
-        print(type(request.POST.get('content', '')))
-        print(content)
-        print()
-        
         #check if an entry with the same title alread exists
         if util.get_entry(title):
             return render(request, 'encyclopedia/error.html', {
@@ -76,9 +74,33 @@ def create_page(request):
     #render the create page form
     return render(request, 'encyclopedia/create_page.html')
     
+def edit_page(request, name):
+    if request.method == "POST":
+        content = request.POST.get('content')
+        
+        # save the updated entry
+        util.save_entry(name, content)
+        
+        # redirect back to entry page
+        return redirect(reverse('title', args=[name]))
+
+    # Retrieve the existing entry content
+    entry_content = util.get_entry(name)
     
+    return render(request, 'encyclopedia/edit_page.html',{
+            'name': name,
+            'content':entry_content
+    })
     
+def random_page(request):
+    entries = util.list_entries()
     
+    # select a random entry from the list
+    random_entry = random.choice(entries)
+    
+    # Redirect to the randomly selected entry's page
+    return redirect('title', name=random_entry)
+        
             
     
 
