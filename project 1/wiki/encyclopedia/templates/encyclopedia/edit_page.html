@@ -1,5 +1,5 @@
 {% extends "encyclopedia/layout.html" %}
-{% load markdown2 %}
+
 {% block title %}
     Edit Page: {{ name }}
 {% endblock %}
@@ -9,7 +9,7 @@
 
     <form method="post" action={% url 'edit_page' name%}>
         {% csrf_token %}
-        <textarea id="content" name="content">{{ content }}</textarea>
+        <textarea id="content" name="content">{{ content }}</textarea><br>
         <input type="submit" value="Save">
     </form>
 
