@@ -9,7 +9,7 @@
                 <li>
                     <h2><a href="{% url 'listing' listing.id %}">{{ listing.title }}</a></h2>
                     <p>{{ listing.description }}</p>
-                    <p>Current Price: ${{ listing.current_bid }}</p>
+                    <p>Current Price: ${{ listing.current_bid|floatformat:2}}</p>
                     {% if listing.image_url %}
                         <img src="{{ listing.image_url }}", alt="Listing Image" width="200"> 
                     {% endif %}

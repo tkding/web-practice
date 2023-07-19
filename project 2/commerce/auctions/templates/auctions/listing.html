@@ -4,7 +4,7 @@
     <h2>{{ listing.title }}</h2>
     <p>{{ listing.description }}</p>
     <p>Starting Bid: ${{ listing.starting_bid }}</p>
-    <p>Current Price: ${{ current_bid }}</p>
+    <p>Current Price: ${{ current_bid|floatformat:2 }}</p>
     
     {% if listing.image_url %}
         <img src="{{ listing.image_url }}", alt="Listing Image" width="400"> 

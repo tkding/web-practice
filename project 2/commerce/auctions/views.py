@@ -135,7 +135,10 @@ def listing(request, listing_id):
             form = BidForm(request.POST)
             if form.is_valid():
                 bid_amount = form.cleaned_data["amount"]
-                if (current_bid == listing.starting_bid and bid_amount >= listing.starting_bid) or (bid_amount > current_bid and bid_amount >= listing.starting_bid):
+                if bid_amount >= listing.starting_bid and bid_amount > current_bid:
+                    print("bid_amount:", bid_amount)
+                    print("starting bid:", listing.starting_bid)
+                    print("current bid:", current_bid)
                     bid = Bid(listing=listing, bidder=request.user, amount=bid_amount)
                     bid.save()
                     current_bid = bid_amount

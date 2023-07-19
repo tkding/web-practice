@@ -5,6 +5,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from decimal import Decimal
+
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=64)
@@ -38,9 +40,9 @@ class Listing(models.Model):
         highest_bid = self.bids.order_by('-amount').first()
         
         if highest_bid:
-            return  "{:.2f}".format(highest_bid.amount)
-
-        return "{:.2f}".format(0) #self.starting_bid
+            return Decimal(highest_bid.amount).quantize(Decimal('0.00'))
+        
+        return Decimal(self.starting_bid).quantize(Decimal('0.00'))
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
