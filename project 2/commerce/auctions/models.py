@@ -42,7 +42,7 @@ class Listing(models.Model):
         if highest_bid:
             return Decimal(highest_bid.amount).quantize(Decimal('0.00'))
         
-        return Decimal(self.starting_bid).quantize(Decimal('0.00'))
+        return Decimal(0).quantize(Decimal('0.00'))
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
