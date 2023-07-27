@@ -109,7 +109,7 @@ function load_mailbox(mailbox) {
         `;
 
         // add an event listner to view the full content of the email
-        emailDiv.addEventListener('click', () => view_email(email.id));
+        emailDiv.addEventListener('click', () => view_email(email.id, mailbox));
 
         // append the email box to the parent emailsDiv
         emailsDiv.appendChild(emailDiv);
@@ -192,7 +192,9 @@ fetch('/emails/100')
     // ... do something else with email ...
 });
 */
-function view_email(emailId){
+function view_email(emailId, mailbox){
+  console.log(`view email: ${emailId}`);
+
   // show the email view and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
@@ -215,22 +217,49 @@ function view_email(emailId){
         <p><strong>Timestamp:</strong> ${email.timestamp}</p>
         <hr />
         <p>${email.body}</p>
-        <button class="btn btn-sm btn-primary archive-btn">${email.archived? 'Unarchive' : 'Archive'}</button>
-        <button class="btn btn-sm btn-primary reply-btn">Reply</button>
       `;
       
-      // attach even listerner to the archive and unarchive button
-      emailDiv.querySelector('.archive-btn').addEventListener('click', () => {
-        if (email.archived) {
-          unarchive_email(email.id);
-        } else {
-          archive_email(email.id);
-        }
-      });
+      /*
+      <button class="btn btn-sm btn-primary archive-btn">${email.archived? 'Unarchive' : 'Archive'}</button>
+      <button class="btn btn-sm btn-primary reply-btn">Reply</button>
+      */
+
+      // check if the email is in the Inbox or Archived Inbox
+      console.log(`test view_email: ${mailbox}`);
+      if(mailbox === 'inbox' || mailbox === 'archive'){
+        // create and show the archive/unarchive button
+        const archive_button = document.createElement('button');
+        archive_button.classList.add('btn', 'btn-sm', 'btn-primary', 'archive-btn');
+        archive_button.textContent = email.archived? 'Unarchive' : 'Archive';
+        emailDiv.appendChild(archive_button);
+
+        // attach even listener to the archive and unarchive button
+        archive_button.addEventListener('click', () => {
+          if (email.archived) {
+            unarchive_email(email.id);
+          } else {
+            archive_email(email.id);
+          }
+        });
+
+        // Add padding to the archive button
+        archive_button.style.padding = '5px 10px';
+        archive_button.style.margin = '5px';
+      }      
       
+      // create and show the reply button
+      const reply_button = document.createElement('button');
+      reply_button.classList.add('btn', 'btn-sm', 'btn-primary', 'reply-btn');
+      reply_button.textContent = 'Reply';
+      emailDiv.appendChild(reply_button);
 
       // attach even listerner to the reply button
-      emailDiv.querySelector('.reply-btn').addEventListener('click', () => reply_email(email));
+      // reply button === emailDiv.querySelector('.reply-btn')
+      reply_button.addEventListener('click', () => reply_email(email));
+
+      // add padding to the reply button
+      reply_button.style.padding = '5px 10px';
+      reply_button.style.margin = '5px';
 
       // mark the email as read by sending a PUT request
       if (!email.read){
