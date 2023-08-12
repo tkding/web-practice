@@ -1,0 +1,49 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h1 id="profileTitle"  data-is-current-user="{% if request.user == profile_user %}True{% else %}False{% endif %}">{{ profile_user.username }}'s Profile</h1>
+    <p id="followersCount">Followers: <span id="followersNumber">{{ followers_count }}</span></p>
+    <p id="followingCount">Following: <span id="followingNumber">{{ following_count }}</span></p>
+    
+    {% if request.user != profile_user %}
+        <button id="followButton" class="btn btn-primary">Follow</button>
+        <button id="unfollowButton" class="btn btn-primary">Unfollow</button>  
+    {% endif %}
+
+    <ul id="postsList">
+        <!-- posts will be added dynamically here -->
+        {% for post in posts %}
+            <li>
+                <p>{{ post.content }}</p>
+                <p>{{ post.timestamp }}</p>
+                <p>Likes: {{ post.likes.count }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Pagination links -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ posts.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">Next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <!-- project 4\project4\network\static\network\profile.js -->
+    <input type="hidden" id="profileUserId" value="{{ profile_user.id }}">
+    <script src="{% static 'network/profile.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,117 @@
+Fireship
+
+How? 
+
+Where?
+
+Why?
+
+1. Browser
+2. html
+3. High-level
+4. ecmascript - only code that natively run on webbrowser
+5. web assembly
+6. runtime - can run on server too, ex: node.js 
+7. scripting language
+8. dev tools - browser console
+9. interpreted line by line
+10. JS engine - V8 
+11. JIT just-in-time compilation
+12. script tag - in html file
+13. src attribute
+14. console.log - js printing to standard output
+15. let 
+16. camel case 
+17. Dynamically typed
+18. primitive - 7: string,number,bigint,boolean, undefined, symbol,null
+19. undefined - default value
+20. null - explicitly assign to undefined
+21. string
+22. object 
+23. semicolon - ;
+24. const - variable that can't be reassgined ltr
+25. var - tend to not use
+26. lexical environment - determine where variables work and where they don't 
+27. global scope
+28. function 
+29. local scope
+30. block scope 
+31. hoisting - for "var"
+32. funtion definition/statement
+33. input params
+34. return value
+35. function expression - funciton is just object
+36. higher-order functions 
+37. closure
+38. call stack - browser short term memory
+39. heap memory
+40. this - key word to reference how this object is called
+41. global/window - called this from global scope
+42. bind - bind function to object
+43. arrow function - => 
+44. anonymous
+45. passed by value - primitive: copy is sent to the function
+46. passed by reference - object: real object
+47. object literal - {}
+48. object constructor - new object();
+49. properties
+50. prototype chain - inherit properties from each other
+51. inheritance - not used in js, bc we are dealing with object that take up real memory opposed to abstract classes in your code
+52. oop 
+53. class - syntatic sugar
+54. constructor
+55. getter/setter
+56. instance method
+57. static method - global to the class name
+58. array - []
+59. set - new Set(list)
+60. map - new Map([key, value])
+61. garbage collection
+62. weakmap
+63. non-blocking event loop
+64. synchornously - normally, first need to finish b4 second
+65. asynchornous code
+66. thread pool - rest of the application continue to execute
+67. single threaded - using async to multi task
+68. settimeout
+69. callback function
+70. callback hell
+71. promise
+72. resolve
+73. reject
+74. then/catch
+75. async function - automatically return a promise
+76. await - wait for other promises to resolve, use in try catch block
+77. try/catch
+78. es modules - share code between file
+79. default export - let us import the function from other files
+80. name export
+81. node package manager - npm
+82. node_modules
+83. package.json - dependency
+84. document object model (DOM) - UI is represented as a tree of HTML elements/nodes
+85. document - allow us to grabs individual HTML elements
+86. query selector
+87. css selector
+88. query selector all
+89. elements
+90. events - addEventListener
+91. imperative - ui is mutated directly
+    ui libraries - ex: react.js 
+92. declarative, ui a function of its input data
+93. components - the ui lib encapculate html, css, js to components
+94. data binding - inside component, data is reactive. 
+95. module bundler - ex: V, webpack
+96. network waterfall - js gets to bigint
+    split bundle into multiple files 
+    const lazyBundle = await import('./lazy.js')
+97. dynamic imports
+98. node.js - run js on server.
+    node server.js
+99. cross platfrom - ex: electron. combine node.js with browser to create fullstack desktop 
+100. typescript
+101. eslint - does static analysis to improve code quality
+
+
+
+88 and 89 are switched

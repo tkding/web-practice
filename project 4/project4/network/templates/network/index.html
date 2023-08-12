@@ -1,7 +1,8 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
-    <h1>All Posts</h1>
+    <h1 class="title">{{ title }}</h1>
     
     {% if page_obj.has_previous %}
         <a href="?page=1">&laquo; First</a>
@@ -13,14 +14,23 @@
         <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
     {% endif %}
 
-    {% if user.is_authenticated %}
-        <form action="{% url 'new_post' %}" method="POST">
-            {% csrf_token %}
-            <!-- TODO: using django, make the text area 5 rows and the col follow the screen size with some padding-->
-            <textarea name="content" cols="30" rows="5"></textarea>
-            <input type="submit" value="Post">
-        </form>
+    {% if title == 'All Posts' %}
+        {% if user.is_authenticated %}
+            <!-- message -->
+            <!-- TODO: notify user that post is posted -->
+            {% if message %}
+                <div>{{ message }}</div>
+            {% endif %}
+
+            <form action="{% url 'new_post' %}" method="POST">
+                {% csrf_token %}
+                <!-- TODO: using django, make the text area 5 rows and the col follow the screen size with some padding-->
+                <textarea name="content" cols="30" rows="5"></textarea>
+                <input type="submit" value="Post">
+            </form>
+        {% endif %}
     {% endif %}
+    
 
     <!-- if page_obj is empty, display no post-->
     {% if page_obj.paginator.count == 0 %}
@@ -30,10 +40,22 @@
     <ul>
         {% for post in page_obj %}
             <li>
-                <strong>{{ post.user.username }}</strong>
-                <p>{{ post.content }}</p>
+                <a href="{% url 'profile' user_id=post.user.id %}"><strong>{{ post.user.username }}</strong></a>
+                <p class="post-content" data-post-id="{{ post.id }}">{{ post.content }}</p>
                 <p>{{ post.timestamp }}</p>
-                <p>Likes: {{ post.likes.count }}</p>
+                <p>Likes: <span class="like-count" data-post-id="{{ post.id }}">{{ post.likes.count }}</span></p>
+                {% if user.is_authenticated %}
+                    <button class="like-btn {% if post.like_by_user %}liked{% endif %}" data-post-id="{{ post.id }}">Like</button>
+                {% endif %}
+                
+
+                {% if post.user == request.user %}
+                    <button class="edit-post-btn" data-post-id="{{ post.id }}">Edit</button>
+                    <div class="edit-post-form" hidden data-post-id="{{ post.id }}" data-original-content="{{ post.content }}">
+                        <textarea class="edit-post-textarea" name="content" cols="30" rows="5"></textarea>
+                        <button class="save-post-btn" data-post-id="{{ post.id }}">Save</button>
+                    </div>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
@@ -47,4 +69,8 @@
         <a href="?page={{ page_obj.next_page_number }}">Next</a>
         <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
     {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
 {% endblock %}
