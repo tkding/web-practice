@@ -18,14 +18,20 @@
         {% if user.is_authenticated %}
             <!-- message -->
             <!-- TODO: notify user that post is posted -->
-            {% if message %}
-                <div>{{ message }}</div>
+            {% if messages %}
+            <div class="success-message">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
             {% endif %}
 
-            <form action="{% url 'new_post' %}" method="POST">
+            <form class="new-post-form" action="{% url 'new_post' %}" method="POST">
                 {% csrf_token %}
                 <!-- TODO: using django, make the text area 5 rows and the col follow the screen size with some padding-->
-                <textarea name="content" cols="30" rows="5"></textarea>
+                <textarea name="content" cols="50" rows="5"></textarea>
                 <input type="submit" value="Post">
             </form>
         {% endif %}
@@ -39,7 +45,7 @@
     
     <ul>
         {% for post in page_obj %}
-            <li>
+            <li class="post">
                 <a href="{% url 'profile' user_id=post.user.id %}"><strong>{{ post.user.username }}</strong></a>
                 <p class="post-content" data-post-id="{{ post.id }}">{{ post.content }}</p>
                 <p>{{ post.timestamp }}</p>

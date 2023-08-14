@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
 import traceback
 import json
+from django.contrib import messages
 
 from .models import User, Post, UserProfile, Like
 
@@ -88,9 +89,13 @@ def new_post(request):
         content = request.POST["content"]
         user = request.user
         post = Post.objects.create(user=user, content=content)
-        return HttpResponseRedirect(reverse("index"), {
-            "message": "Post created successfully."
-        })
+        # new stuff for new post msg
+        messages.success(request, 'Post created successfully.')
+        return redirect('index') # redirect to index page
+    
+        # return HttpResponseRedirect(reverse("index"), {
+        #     "message": "Post created successfully."
+        # })
     else:
         return render(request, "network/new_post.html")
 

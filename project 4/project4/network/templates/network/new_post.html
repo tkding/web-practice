@@ -7,7 +7,7 @@
     <form action="{% url 'new_post' %}" method="post" id="newPostForm">
         {% csrf_token %}
         <div class="form-group">
-            <textarea class="form-control" name="content" placeholder="Content" required></textarea>
+            <textarea class="form-control resizable-textarea" name="content" placeholder="Content" required></textarea>
         </div>
         <input class="btn btn-primary" type="submit" value="Post">
     </form>
