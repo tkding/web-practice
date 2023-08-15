@@ -76,6 +76,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // like/unlike post
     const likeButtons = document.querySelectorAll('.like-btn');
+    
+    // Retrieve liked posts from local storage
+    const likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || [];
+
+    // Apply red background to "Like" buttons for liked posts
+    likedPosts.forEach(postId => {
+        const likeButton = document.querySelector(`.like-btn[data-post-id="${postId}"]`);
+        if (likeButton) {
+            likeButton.classList.add('liked');
+        }
+    });
 
     likeButtons.forEach(likeButton => {
         likeButton.addEventListener('click', () => {
@@ -95,14 +106,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     // Update the like count
                     likeCount.textContent = data.like_count;
+                    
+                    if (likedPosts.includes(postId)) {
+                        likedPosts.splice(likedPosts.indexOf(postId), 1);
+                    }
 
                     // Toggle the like/unlike button
+                    // Add or remove post ID from likedPosts in local storage
                     if (data.liked) {
                         likeButton.classList.add('liked');
+                        likedPosts.push(postId);
                     } else {
                         likeButton.classList.remove('liked');
                     }
+
+                    localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
                 }
+
+                
             })
             .catch(error => {
                 console.error('Error:', error);
