@@ -18,30 +18,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const isCurrentUserProfile = profileTitle.getAttribute("data-is-current-user") === "True";
     console.log(`isCurrentUserProfile: ${isCurrentUserProfile}`);
 
-    if(!isCurrentUserProfile){
-        console.log('Current user is not the profile user');
-        console.log('Before fetch profile');
-        fetch(`/check_follow/${user_id}`)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Fetch check_follow successful', data.is_following);
-                if(data.is_following){
-                    displayFollowButton(true);
-                } else {
-                    displayFollowButton(false);
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+    // check if user is logged in
+    const isLoggedIn = profileTitle.getAttribute("data-is-logged-in") === "True";
 
-        console.log('After fetch check_follow');
+    if(isLoggedIn){
+        if(!isCurrentUserProfile){
+            console.log('Current user is not the profile user');
+            console.log('Before fetch profile');
+            fetch(`/check_follow/${user_id}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Fetch check_follow successful', data.is_following);
+                    if(data.is_following){
+                        displayFollowButton(true);
+                    } else {
+                        displayFollowButton(false);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+
+            console.log('After fetch check_follow');
+        }
+        else{
+            console.log('Current user is the profile user');    
+        }
     }
     else{
-        console.log('Current user is the profile user');
-        
+        console.log('User is not logged in');
     }
-
+    
     if (followButton) {
         console.log('Follow button found');
         followButton.addEventListener("click", () => {

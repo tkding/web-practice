@@ -31,7 +31,7 @@
             <form class="new-post-form" action="{% url 'new_post' %}" method="POST">
                 {% csrf_token %}
                 <!-- TODO: using django, make the text area 5 rows and the col follow the screen size with some padding-->
-                <textarea name="content" cols="50" rows="5"></textarea>
+                <textarea name="content" cols="50" rows="5" placeholder="Content" required></textarea>
                 <input type="submit" value="Post">
             </form>
         {% endif %}

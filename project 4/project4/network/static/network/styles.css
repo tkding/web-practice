@@ -53,5 +53,18 @@
     width: 100%; /* Occupy full width of the container */
 }
 
+/* Style for followers and following count */
+#followersCount,
+#followingCount {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#followersNumber,
+#followingNumber {
+    font-weight: bold;
+    color: #337ab7; /* Blue color for links */
+}
+
 
 
